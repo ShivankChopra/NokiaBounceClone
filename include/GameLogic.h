@@ -9,7 +9,7 @@
 class GameLogic : public b2ContactListener
 {
     public:
-                                      GameLogic(Ball&);
+                                      GameLogic();
 
         void                          BeginContact(b2Contact*);
         void                          EndContact(b2Contact*);
@@ -17,12 +17,10 @@ class GameLogic : public b2ContactListener
         std::vector<b2Body*>&         getDestroyBodyList();
 
     private:
-        bool                          isBall(Entities::Type);
-        bool                          isFire(Entities::Type);
         // to handle collision effects of various entities
-        void                          handleFire();
+        void                          handleDeath(Ball*);
+        void                          handleDimond(Ball* ,Entity* ,b2Body*);
 
-        Ball&                         m_ball;
         std::vector<b2Body*>          destroyBodyList;
 };
 

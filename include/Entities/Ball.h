@@ -12,8 +12,6 @@
 class Ball
 {
     public:
-        sf::Time                  m_time;
-        Entities::Type            m_entityType;
 
                                   Ball();
                                   ~Ball();
@@ -42,6 +40,10 @@ class Ball
         void                      toggleType();
         void                      fly();
         void                      draw(sf::RenderWindow& ,sf::View&);
+
+        sf::Time                  m_time;
+        bool                      isRespawn;
+        Entities::Type            m_entityType;
 
 
     private:

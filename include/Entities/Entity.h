@@ -15,6 +15,7 @@ class Entity
                                  Entity(Entities::Type);
         void                     setBody(b2Body*);
         void                     setTexture(const sf::Texture&);
+        sf::Vector2f             getPosition();
         void                     draw(sf::RenderWindow& window);
 
     protected:

@@ -14,10 +14,11 @@ void Entity::setTexture(const sf::Texture& l_texture)
 
 void Entity::setBody(b2Body* l_body)
 {
+    m_body = l_body;
+    m_body->SetUserData(this);
+
     if(l_body != nullptr)
     {
-        m_body = l_body;
-        m_body->SetUserData(&m_type);
         setEntitySprite();
     }
     else
@@ -38,6 +39,12 @@ void Entity::setEntitySprite()
          m_sprite.setScale(side1/size_x , side2/size_y);
          // for setting origin
          m_sprite.setOrigin(m_sprite.getLocalBounds().width/2 , m_sprite.getLocalBounds().height/2);
+}
+
+
+sf::Vector2f Entity::getPosition()
+{
+    return m_sprite.getPosition();
 }
 
 

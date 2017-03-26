@@ -1,6 +1,6 @@
 #include "Entities/Ball.h"
 
-Ball::Ball() : m_entityType(Entities::Type::Ball)
+Ball::Ball() : isRespawn(false) ,m_entityType(Entities::Type::Ball)
 {
     m_score = 0;
     m_flagsTaken = 0;
@@ -60,7 +60,7 @@ void Ball::setSpawnPosition(sf::Vector2f l_spawnPosition){ m_spawnPosition = l_s
 void Ball::setBody(b2Body* l_body)
 {
     m_body = l_body ;
-    m_body->SetUserData(&m_entityType);
+    m_body->SetUserData(this);
     if(m_body != nullptr)
     {
         m_spawnPosition = tmx::BoxToSfVec(m_body->GetPosition());

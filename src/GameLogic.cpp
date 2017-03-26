@@ -1,6 +1,6 @@
 #include "GameLogic.h"
 
-GameLogic::GameLogic(Ball& l_ball) : m_ball(l_ball)
+GameLogic::GameLogic()
 {
 
 }
@@ -11,45 +11,40 @@ std::vector<b2Body*>& GameLogic::getDestroyBodyList()
     return destroyBodyList;
 }
 
-// functions to determine colliding entity types
-bool GameLogic::isBall(Entities::Type l_type)
-{
-    if(l_type == Entities::Type::Ball)
-        return true;
-    else
-        return false;
-}
-
-
-bool GameLogic::isFire(Entities::Type l_type)
-{
-    if(l_type == Entities::Type::Fire)
-        return true;
-    else
-        return false;
-}
-
 // functions to handle properties during collision
-void GameLogic::handleFire()
+void GameLogic::handleDeath(Ball* l_ball)
 {
-    m_ball.setLives(m_ball.getLives() - 1);
-    m_ball.respawn();
+    //l_ball->setLives(l_ball->getLives() - 1);
+    l_ball->isRespawn = true;
+}
+
+
+void GameLogic::handleDimond(Ball* l_ball , Entity* l_dimond , b2Body* l_b)
+{
+    l_ball->setSpawnPosition(l_dimond->getPosition());
+    //destroyBodyList.push_back(l_b);
+
 }
 
 
 // handle collision
 void GameLogic::BeginContact(b2Contact* contact)
 {
+    /* in case of collision with wall , the body user data will be null */
     b2Body* b_A = contact->GetFixtureA()->GetBody();
     b2Body* b_B = contact->GetFixtureB()->GetBody();
 
-    Entities::Type* t_A = static_cast<Entities::Type*>(b_A->GetUserData());
-    Entities::Type* t_B = static_cast<Entities::Type*>(b_B->GetUserData());
+    Entity* e_A = static_cast<Entity*>(b_A->GetUserData());
+    Ball* l_ball = static_cast<Ball*>(b_B->GetUserData());// always a ball
 
-    if(isFire(*t_A) || isFire(*t_B))
+    if(e_A != nullptr)
     {
-        std::cout<<"handling fire";
-        //handleFire();
+        if(e_A->m_type == Entities::Type::Fire)
+            handleDeath(l_ball);
+        if(e_A->m_type == Entities::Type::Spike)
+            handleDeath(l_ball);
+        if(e_A->m_type == Entities::Type::Dimond)
+            handleDimond(l_ball, e_A ,b_A);
     }
 }
 

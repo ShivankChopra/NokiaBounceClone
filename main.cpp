@@ -29,8 +29,8 @@ int main()
 
     Maps& m = ef.getMapObject();
     // game logic
-    GameLogic gl(ball);
-    //world.SetContactListener(&gl);
+    GameLogic gl;
+    world.SetContactListener(&gl);
 
     // load sounds
     SoundHolder s;
@@ -64,16 +64,28 @@ int main()
                 if(event.key.code == sf::Keyboard::Up)
                 {
                     sn.play();
-                }
-                if(event.key.code == sf::Keyboard::Up)
-                {
                     ball.jump();
                 }
             }
+
         }
 
         //update
 		world.Step(clock.restart().asSeconds(), 6, 3);
+
+		//delete bodies from contact listner
+		std::vector<b2Body*>& destroyList = gl.getDestroyBodyList();
+		for(auto& b : destroyList)
+        {
+            world.DestroyBody(b);
+        }
+
+        // check if ball needs to be respawned
+		if(ball.isRespawn == true)
+        {
+            ball.isRespawn = false;
+            ball.respawn();
+        }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
