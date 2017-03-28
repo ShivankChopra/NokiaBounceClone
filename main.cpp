@@ -48,6 +48,7 @@ int main()
     // view handling
     sf::View view;
 	view.setSize(600,375);
+	view.zoom(1.5);
 
     // game loop
     sf::Clock clock;

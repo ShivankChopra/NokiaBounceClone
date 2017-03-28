@@ -5,8 +5,8 @@ Ball::Ball() : isRespawn(false) ,m_entityType(Entities::Type::Ball)
     m_score = 0;
     m_flagsTaken = 0;
     m_lives = 3;
-    m_speed = 0.1;
-    m_jumpImpulse = 50;
+    m_speed = 0.4;
+    m_jumpImpulse = 100;
     m_type = Ball::Type::small;
 
     m_time = sf::Time::Zero;
@@ -150,10 +150,10 @@ void Ball::draw(sf::RenderWindow& window, sf::View& view)
     sf::Vector2f temp = tmx::BoxToSfVec(m_body->GetPosition());
     m_ballSprite.setPosition(temp);
 
-    if(temp.x > view.getCenter().x + 250||
-       temp.y > view.getCenter().y + 200||
-       temp.x < view.getCenter().x - 250||
-       temp.y < view.getCenter().y - 200 )
+    if(temp.x > view.getCenter().x + 350||
+       temp.y > view.getCenter().y + 300||
+       temp.x < view.getCenter().x - 350||
+       temp.y < view.getCenter().y - 300 )
        {
                 view.setCenter(temp);
        }

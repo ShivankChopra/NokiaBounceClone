@@ -6,7 +6,7 @@ void EntityFactory::loadWalls(const tmx::MapLayer& l_layer)
     for(const auto& o : l_layer.objects)
     {
         b2Body* b = tmx::BodyCreator::Add(o ,m_world);
-        b->GetFixtureList()->SetFriction(0.5f);
+        b->GetFixtureList()->SetFriction(0.2f);
         // if wall is a blue rubber wall
         std::string isRubberWall = o.GetPropertyString("isRubberWall");
         if(isRubberWall == "true")
@@ -68,7 +68,7 @@ void EntityFactory::loadBall(const tmx::MapLayer& l_layer)
     {
         b2Body* b = tmx::BodyCreator::Add(o, m_world, b2BodyType::b2_dynamicBody);
         b->GetFixtureList()->SetRestitution(0.40f);
-        b->GetFixtureList()->SetDensity(2.0f);
+        b->GetFixtureList()->SetDensity(1.5f);
         b->GetFixtureList()->SetFriction(0.1f);
         b->SetFixedRotation(true);
 
@@ -100,7 +100,7 @@ void EntityFactory::loadTextures()
 void EntityFactory::loadMaps()
 {
     m_maps.addSearchPath("assets/textures");
-    m_maps.addMap(m1, "test2.tmx");
+    m_maps.addMap(m1, "Level_1.tmx");
     // add more maps in future
 }
 
