@@ -1,6 +1,6 @@
 #include "Entity.h"
 
-Entity::Entity(Entities::Type l_type) : m_type(l_type)
+Entity::Entity(Entities::Type l_type) : m_type(l_type) , updateUsingBody(true)
 {
 
 }
@@ -50,8 +50,22 @@ sf::Vector2f Entity::getPosition()
 
 void Entity::draw(sf::RenderWindow& window)
 {
-    sf::Vector2f temp = tmx::BoxToSfVec(m_body->GetPosition());
-    m_sprite.setPosition(temp);
+    if(m_body != nullptr)
+    {
+        sf::Vector2f temp = tmx::BoxToSfVec(m_body->GetPosition());
+        m_sprite.setPosition(temp);
+    }
 
-    window.draw(m_sprite);
+    if(updateUsingBody)
+    {
+        window.draw(m_sprite);
+    }
+
+}
+
+
+void Entity::destroy(b2World& world)
+{
+    updateUsingBody = false;
+    world.DestroyBody(m_body);
 }

@@ -11,17 +11,18 @@ class Entity
 {
     public:
         Entities::Type           m_type;
+        bool                     updateUsingBody;
 
                                  Entity(Entities::Type);
         void                     setBody(b2Body*);
         void                     setTexture(const sf::Texture&);
         sf::Vector2f             getPosition();
         void                     draw(sf::RenderWindow& window);
+        void                     destroy(b2World&);
 
     protected:
         sf::Sprite               m_sprite;
         b2Body*                  m_body;
-
 
     private:
         void                     setEntitySprite();

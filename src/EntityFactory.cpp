@@ -40,10 +40,12 @@ void EntityFactory::loadSpikes(const tmx::MapLayer& l_layer)
         std::string isVertical = o.GetPropertyString("isVertical");
         std::string isHorizontal = o.GetPropertyString("isHorizontal");
         float x_vel = 0 , y_vel = 0;
-        if(isVertical == "true")
-            y_vel = 0.5;
-        if(isHorizontal == "true")
-            x_vel = 1.0;
+
+        std::string x_str = o.GetPropertyString("x_vel");
+        x_vel = atof(x_str.c_str());
+
+        std::string y_str = o.GetPropertyString("y_vel");
+        y_vel = atof(y_str.c_str());
 
         std::string flipTime = o.GetPropertyString("flipTime");
         float f = atof(flipTime.c_str());

@@ -9,19 +9,19 @@
 class GameLogic : public b2ContactListener
 {
     public:
-                                      GameLogic();
+                                      GameLogic(std::vector<Entity*>&);
 
         void                          BeginContact(b2Contact*);
         void                          EndContact(b2Contact*);
-
-        std::vector<b2Body*>&         getDestroyBodyList();
 
     private:
         // to handle collision effects of various entities
         void                          handleDeath(Ball*);
         void                          handleDimond(Ball* ,Entity* ,b2Body*);
+        void                          handleCrystal(Ball* ,Entity* ,b2Body*);
+        void                          handleFlag(Ball* ,Entity* ,b2Body*);
 
-        std::vector<b2Body*>          destroyBodyList;
+        std::vector<Entity*>&         destroyEntityList;
 };
 
 #endif // GAMELOGIC_H

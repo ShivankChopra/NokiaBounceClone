@@ -15,8 +15,8 @@ typedef ResourceHolder<sf::SoundBuffer , sounds> SoundHolder;
 
 int main()
 {
-    sf::Vector2f screenSize(800,500);
-    sf::RenderWindow window(sf::VideoMode(screenSize.x, screenSize.y) ,"Resource testing");
+    sf::Vector2f screenSize(1000,625);
+    sf::RenderWindow window(sf::VideoMode(screenSize.x, screenSize.y) ,"Bounce clone!");
     window.setKeyRepeatEnabled(false);
 
     b2World world(tmx::SfToBoxVec(sf::Vector2f(0,2500)));
@@ -28,8 +28,12 @@ int main()
     Ball& ball = ef.getBall();
 
     Maps& m = ef.getMapObject();
+
+    // destroy Entity list
+	std::vector<Entity*> destroyList;
+
     // game logic
-    GameLogic gl;
+    GameLogic gl(destroyList);
     world.SetContactListener(&gl);
 
     // load sounds
@@ -48,7 +52,7 @@ int main()
     // view handling
     sf::View view;
 	view.setSize(600,375);
-	view.zoom(1.5);
+	view.zoom(1.9);
 
     // game loop
     sf::Clock clock;
@@ -75,11 +79,13 @@ int main()
 		world.Step(clock.restart().asSeconds(), 6, 3);
 
 		//delete bodies from contact listner
-		std::vector<b2Body*>& destroyList = gl.getDestroyBodyList();
-		for(auto& b : destroyList)
+		for(auto b : destroyList)
         {
-            world.DestroyBody(b);
+            b->destroy(world);
+            delete b;
         }
+
+        destroyList.clear();
 
         // check if ball needs to be respawned
 		if(ball.isRespawn == true)

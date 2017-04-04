@@ -150,12 +150,16 @@ void Ball::draw(sf::RenderWindow& window, sf::View& view)
     sf::Vector2f temp = tmx::BoxToSfVec(m_body->GetPosition());
     m_ballSprite.setPosition(temp);
 
-    if(temp.x > view.getCenter().x + 350||
-       temp.y > view.getCenter().y + 300||
-       temp.x < view.getCenter().x - 350||
-       temp.y < view.getCenter().y - 300 )
+    if(temp.x > view.getCenter().x + 450||
+       temp.x < view.getCenter().x - 450)
        {
-                view.setCenter(temp);
+                view.setCenter(sf::Vector2f(temp.x,view.getCenter().y));
+       }
+
+     if(temp.y > view.getCenter().y + 350||
+        temp.y < view.getCenter().y - 350 )
+       {
+                view.setCenter(sf::Vector2f(view.getCenter().x,temp.y));
        }
 
      window.setView(view);
