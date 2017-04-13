@@ -75,6 +75,7 @@ void EntityFactory::loadBall(const tmx::MapLayer& l_layer)
         b->SetFixedRotation(true);
 
         m_ball.setTexture(m_textures.get(Texture::Id::Ball));
+        m_ball.m_lastRespawnSprite.setTexture(m_textures.get(Texture::Id::CheckPoint));
         m_ball.setBody(b);
     }
 }

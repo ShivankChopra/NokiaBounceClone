@@ -17,6 +17,7 @@ void GameLogic::handleDeath(Ball* l_ball)
 void GameLogic::handleDimond(Ball* l_ball , Entity* l_dimond , b2Body* l_b)
 {
     l_ball->setSpawnPosition(l_dimond->getPosition());
+    l_ball->m_lastRespawnSprite.setPosition(l_dimond->getPosition());
     destroyEntityList.push_back(l_dimond);
 
 }
@@ -47,6 +48,8 @@ void GameLogic::BeginContact(b2Contact* contact)
 
     Entity* e_A = static_cast<Entity*>(b_A->GetUserData());
     Ball* l_ball = static_cast<Ball*>(b_B->GetUserData());// always a ball
+
+    l_ball->setSingleJumpState();
 
     if(e_A != nullptr)
     {

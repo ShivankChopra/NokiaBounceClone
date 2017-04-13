@@ -69,7 +69,6 @@ int main()
                 if(event.key.code == sf::Keyboard::Up)
                 {
                     sn.play();
-                    ball.jump();
                 }
             }
 
@@ -94,6 +93,10 @@ int main()
             ball.respawn();
         }
 
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        {
+                ball.jump();
+        }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
                 ball.moveRight();

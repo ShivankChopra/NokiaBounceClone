@@ -37,19 +37,20 @@ class Ball
         void                      moveLeft();
         void                      moveRight();
         void                      respawn();
-        void                      toggleType();
-        void                      fly();
         void                      draw(sf::RenderWindow& ,sf::View&);
+        void                      setSingleJumpState();
 
-        sf::Time                  m_time;
         bool                      isRespawn;
         Entities::Type            m_entityType;
+        sf::Sprite                m_lastRespawnSprite;
 
 
     private:
         void                      setBallSprite();
 
-        enum Type{ small , big };
+        //enum Type{ small , big };
+        // implement later
+        enum JumpState{ singleJump , noJump};
 
         b2Body*                   m_body;
         sf::Vector2f              m_spawnPosition;
@@ -59,7 +60,8 @@ class Ball
         int                       m_lives;
         int                       m_score;
         int                       m_flagsTaken;
-        Type                      m_type;
+        JumpState                 m_jumpState;
+        //Type                      m_type;
 
 };
 

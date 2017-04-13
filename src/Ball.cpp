@@ -7,9 +7,8 @@ Ball::Ball() : isRespawn(false) ,m_entityType(Entities::Type::Ball)
     m_lives = 3;
     m_speed = 0.4;
     m_jumpImpulse = 100;
-    m_type = Ball::Type::small;
-
-    m_time = sf::Time::Zero;
+    m_jumpState = JumpState::singleJump;
+    //m_type = Ball::Type::small;
 }
 
 
@@ -87,6 +86,10 @@ void Ball::setBallSprite()
     // for setting origin
     m_ballSprite.setOrigin(m_ballSprite.getLocalBounds().width/2 , m_ballSprite.getLocalBounds().height/2);
     m_ballSprite.setColor(sf::Color::Red);
+
+    // just handle respawn sprite here for now
+    m_lastRespawnSprite.setPosition(m_spawnPosition);
+    m_lastRespawnSprite.setScale(3*radius/size_x , 3*radius/size_y);
 }
 
 
@@ -94,7 +97,13 @@ void Ball::setBallSprite()
 void Ball::jump()
 {
     if(m_body != nullptr)
-       m_body->ApplyLinearImpulse(tmx::SfToBoxVec(sf::Vector2f(0,-1*m_jumpImpulse)) ,m_body->GetPosition() ,true );
+    {
+        if(m_jumpState == JumpState::singleJump)
+        {
+            m_body->ApplyLinearImpulse(tmx::SfToBoxVec(sf::Vector2f(0,-1*m_jumpImpulse)) ,m_body->GetPosition() ,true );
+            m_jumpState = JumpState::noJump;
+        }
+    }
     else
        throw "member 'm_body' of ball is null";
 }
@@ -130,21 +139,6 @@ void Ball::respawn()
 }
 
 
-void Ball::toggleType()
-{
-    if(m_type == Ball::Type::big)
-        m_type = Ball::Type::small;
-    else
-        m_type = Ball::Type::big;
-}
-
-
-void Ball::fly()
-{
-    // set empty right now
-}
-
-
 void Ball::draw(sf::RenderWindow& window, sf::View& view)
 {
     sf::Vector2f temp = tmx::BoxToSfVec(m_body->GetPosition());
@@ -164,4 +158,11 @@ void Ball::draw(sf::RenderWindow& window, sf::View& view)
 
      window.setView(view);
      window.draw(m_ballSprite);
+     window.draw(m_lastRespawnSprite);
+}
+
+
+void Ball::setSingleJumpState()
+{
+    m_jumpState = JumpState::singleJump;
 }
